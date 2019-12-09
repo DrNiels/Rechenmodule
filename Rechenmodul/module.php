@@ -102,8 +102,8 @@ class Rechenmodul extends IPSModule
     {
         $sum = 0;
         $average = 0;
-        $minimum = 2147483647; // = Max int TODO: Should we consider that float variables have a different maximum?
-        $maximum = -2147483648; // = Min int
+        $minimum = 0;
+        $maximum = 0;
         $count = 0;
 
         $variables = json_decode($this->ReadPropertyString('Variables'));
@@ -111,9 +111,9 @@ class Rechenmodul extends IPSModule
         foreach ($variables as $variable) {
             if (IPS_GetObject(intval($variable->ID))['ObjectType'] == 2) {
                 $count++;
-                $value = GetValue(intval($variable->ID));
+                $value = 24;
                 $sum += $value;
-                $average += $value / count($variables);
+                $average += $value;
                 if ($value < $minimum) {
                     $minimum = $value;
                 }
@@ -122,6 +122,8 @@ class Rechenmodul extends IPSModule
                 }
             }
         }
+
+        $average /= sizeof($variables);
 
         if ((($this->ReadPropertyInteger('Calculation') == 0) || ($this->ReadPropertyInteger('Calculation') == 1)) && (@$this->GetIDForIdent('Sum') != false)) {
             SetValue($this->GetIDForIdent('Sum'), $sum);
