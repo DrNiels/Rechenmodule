@@ -109,7 +109,7 @@ class Rechenmodul extends IPSModule
         $variables = json_decode($this->ReadPropertyString('Variables'));
 
         foreach ($variables as $variable) {
-            if (IPS_GetObject(intval($variable->ID))['ObjectType'] == 2) {
+            if (IPS_VariableExists($variable->ID)) {
                 $count++;
                 $value = 24;
                 $sum += $value;
